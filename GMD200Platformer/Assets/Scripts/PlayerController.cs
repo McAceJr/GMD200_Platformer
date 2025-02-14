@@ -1,23 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.ReorderableList;
 using UnityEngine;
 
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
-    private Rigidbody2D rb;
     
+
+    public PlayerSettings settings;
+    private Rigidbody2D rb;
+    public SpriteRenderer Sprite;
+    public Animator anim;
+    public Transform groundCheck;
+
     private float hor;
     private bool jump;
-
-    public Transform groundCheck;
-    public int moveSpeed;
+    private bool moving;
 
     private void Awake()
     {
         
         rb = GetComponent<Rigidbody2D>();
+
+        anim = GetComponentInChildren<Animator>();
 
     }
 
@@ -26,9 +33,23 @@ public class PlayerController : MonoBehaviour
 
         hor = Input.GetAxisRaw("Horizontal");
 
-        RaycastHit2D onGround = Physics2D.BoxCast(groundCheck.position, groundCheck.localScale, 0f, -transform.up);
+        RaycastHit2D onGround = Physics2D.BoxCast(groundCheck.position, groundCheck.localScale, 0f, -transform.up, 0, settings.groundLayer);
 
-        if (Input.GetButtonDown("Jump") && onGround.collider.tag == "ground")
+        if (hor < 0)
+            Sprite.flipX = true;
+        else if (hor > 0)
+            Sprite.flipX = false;
+        
+        if (hor != 0)
+            moving = true;
+        else
+            moving = false;
+        
+        anim.SetBool("moving", moving);
+
+
+
+        if (Input.GetButtonDown("Jump") && onGround)
         {
 
             jump = true;
@@ -44,7 +65,9 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
 
-        rb.velocity = new Vector2(hor * moveSpeed, rb.velocity.y);
+        rb.velocity = new Vector2(hor * settings.moveSpeed, Mathf.Clamp(rb.velocity.y, -settings.clampRange, settings.clampRange));
+
+        
 
         if(jump)
         {
