@@ -16,4 +16,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  clampRange: 8
+  deathLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  fallClamp: 7

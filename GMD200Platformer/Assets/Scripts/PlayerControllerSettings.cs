@@ -8,7 +8,12 @@ public class PlayerSettings : ScriptableObject
 {
 
     public int moveSpeed;
+    
+    
     public LayerMask groundLayer;
-    public float clampRange;
+    /*public LayerMask deathLayer;*/
+
+    
+    public float fallClamp;
 
 }
