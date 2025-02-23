@@ -52,7 +52,14 @@ public class PlayerController : MonoBehaviour
         
         anim.SetBool("moving", moving);
 
+        
 
+        if (onGround.collider.tag == "moveable")
+        {
+
+            //this
+
+        }
 
         if (Input.GetButtonDown("Jump") && onGround)
         {
