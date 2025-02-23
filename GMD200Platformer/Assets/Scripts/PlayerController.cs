@@ -140,7 +140,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.tag == "level" && Input.GetKeyDown(KeyCode.W))
         {
 
-            other.GetComponent<PortalManager>();
+            other.GetComponent<PortalManager>().Teleport();
 
         }
 

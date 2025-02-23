@@ -8,7 +8,7 @@ public class PortalManager : MonoBehaviour
 
     public string scene;
 
-    public void TeleportMainMenu()
+    public void Teleport()
     {
 
         SceneManager.LoadScene(scene);

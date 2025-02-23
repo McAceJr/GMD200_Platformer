@@ -7,6 +7,7 @@ TagManager:
   - moveable
   - money
   - exit
+  - level
   layers:
   - Default
   - TransparentFX
