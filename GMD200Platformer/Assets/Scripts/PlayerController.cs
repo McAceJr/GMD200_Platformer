@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using Unity.VisualScripting.ReorderableList;
 using UnityEditor.Tilemaps;
@@ -11,6 +12,7 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
 
+    private int coins = 0;
 
     public LayerMask deathLayer2;
 
@@ -19,6 +21,7 @@ public class PlayerController : MonoBehaviour
     public SpriteRenderer Sprite;
     public Animator anim;
     public Transform groundCheck;
+    public TextMeshProUGUI tmpro;
 
     private float hor;
     private bool jump;
@@ -26,7 +29,9 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        
+
+        tmpro.text = coins.ToString() + "/3";
+
         rb = GetComponent<Rigidbody2D>();
 
         anim = GetComponentInChildren<Animator>();
@@ -53,12 +58,23 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("moving", moving);
 
         
-
-        if (onGround.collider.tag == "moveable")
+        if (Input.GetKeyDown(KeyCode.R))
         {
 
-            //this
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
+        }
+
+
+        if (onGround && onGround.collider.tag == "moveable")
+        {
+
+            this.transform.parent = onGround.transform;
+
+        }
+        else
+        {
+            this.transform.parent = null;
         }
 
         if (Input.GetButtonDown("Jump") && onGround)
@@ -95,6 +111,36 @@ public class PlayerController : MonoBehaviour
         {
 
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        }
+
+        if (other.gameObject.tag == "money")
+        {
+
+            coins += settings.coinValue;
+
+            Destroy(other.gameObject);
+
+            tmpro.text = coins.ToString() + "/3";
+
+        }
+
+        if (other.gameObject.tag == "exit")
+        {
+
+            SceneManager.LoadScene("Level Select");
+
+        }
+
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        
+        if (other.gameObject.tag == "level" && Input.GetKeyDown(KeyCode.W))
+        {
+
+            other.GetComponent<PortalManager>();
 
         }
 

@@ -13,6 +13,7 @@ public class PlayerSettings : ScriptableObject
     public LayerMask groundLayer;
     /*public LayerMask deathLayer;*/
 
+    public int coinValue;
     
     public float fallClamp;
 
