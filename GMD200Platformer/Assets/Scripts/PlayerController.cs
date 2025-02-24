@@ -14,14 +14,13 @@ public class PlayerController : MonoBehaviour
 
     private int coins = 0;
 
-    public LayerMask deathLayer2;
-
     public PlayerSettings settings;
     private Rigidbody2D rb;
     public SpriteRenderer Sprite;
     public Animator anim;
     public Transform groundCheck;
     public TextMeshProUGUI tmpro;
+    public PauseMenu Pause;
 
     private float hor;
     private bool jump;
@@ -40,8 +39,13 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (!Pause.paused)
+        {
+            
+            hor = Input.GetAxisRaw("Horizontal");
 
-        hor = Input.GetAxisRaw("Horizontal");
+        }
+        
 
         RaycastHit2D onGround = Physics2D.BoxCast(groundCheck.position, groundCheck.localScale, 0f, -transform.up, 0, settings.groundLayer);
 
@@ -58,7 +62,7 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("moving", moving);
 
         
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) && !Pause.paused)
         {
 
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -77,7 +81,7 @@ public class PlayerController : MonoBehaviour
             this.transform.parent = null;
         }
 
-        if (Input.GetButtonDown("Jump") && onGround)
+        if (Input.GetButtonDown("Jump") && onGround && !Pause.paused)
         {
 
             Flip();
@@ -88,6 +92,8 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+
+       
 
         rb.velocity = new Vector2(hor * settings.moveSpeed, Mathf.Clamp(rb.velocity.y, -settings.fallClamp, settings.fallClamp));
 
