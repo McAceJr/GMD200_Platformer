@@ -12,6 +12,8 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
 
+    public static bool[] levelComplete = new bool[4];
+
     private int coins = 0;
 
     public PlayerSettings settings;
@@ -133,6 +135,14 @@ public class PlayerController : MonoBehaviour
 
         if (other.gameObject.tag == "exit")
         {
+
+            int i;
+
+            i = SceneManager.GetActiveScene().buildIndex;
+
+            i = i - 2;
+
+            levelComplete[i] = true;
 
             SceneManager.LoadScene("Level Select");
 
