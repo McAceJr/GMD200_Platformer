@@ -114,8 +114,11 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        //LayerMask mask;
+        //if ((mask & (1 << other.gameObject.layer)) != 0){
 
-        if (other.gameObject.layer == 7) // the layer wont except any variables
+        //}
+        if (other.gameObject.layer == LayerMask.NameToLayer("Death")) // the layer wont except any variables
         {
 
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -133,7 +136,7 @@ public class PlayerController : MonoBehaviour
 
         }
 
-        if (other.gameObject.tag == "exit")
+        if (other.gameObject.CompareTag("exit"))
         {
 
             int i;
